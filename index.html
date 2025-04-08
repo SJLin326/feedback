@@ -8,47 +8,69 @@
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 50px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
     }
+
     .emoji-container {
       display: flex;
       justify-content: center;
       gap: 40px;
       margin-bottom: 30px;
     }
+
     .emoji-block {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     .emoji-button {
       font-size: 100px;
       margin: 10px;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
     }
+
     .counter {
       font-size: 24px;
       margin-top: 10px;
-      display: none; /* 初始隱藏 */
+      display: none;
     }
 
     #total-votes {
       font-size: 20px;
-      margin-bottom: 10px;
+      margin: 80px 0 10px;
+      text-align: center;
+      width: 100%;
     }
 
-    .bottom-section {
+    .settings-container {
       position: fixed;
       bottom: 20px;
       right: 20px;
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
+      align-items: center;
+      gap: 10px;
     }
 
-    .bottom-buttons {
-      display: flex;
+    #settings-icon {
+      font-size: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    .settings-buttons {
+      display: none;
+      flex-direction: row;
       gap: 10px;
-      margin-bottom: 8px;
     }
 
     .action-button {
@@ -58,14 +80,26 @@
       color: white;
       cursor: pointer;
       border-radius: 8px;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    #toggle-counts-btn {
+      background-color: #2196f3;
     }
 
     #clear-button {
       background-color: #f44336;
     }
 
-    #toggle-counts-btn {
-      background-color: #2196f3;
+    button:focus {
+      outline: none;
+    }
+
+    button:active {
+      outline: none;
+      box-shadow: none;
     }
   </style>
 </head>
@@ -78,22 +112,21 @@
       <div onclick="vote('bad')" class="emoji-button">😠</div>
       <div id="bad-count" class="counter">0</div>
     </div>
-
     <div class="emoji-block">
       <div onclick="vote('neutral')" class="emoji-button">😐</div>
       <div id="neutral-count" class="counter">0</div>
     </div>
-
     <div class="emoji-block">
       <div onclick="vote('happy')" class="emoji-button">😊</div>
       <div id="happy-count" class="counter">0</div>
     </div>
   </div>
 
-  <div class="bottom-section">
-    <div id="total-votes">Total votes: 0</div>
+  <div id="total-votes">Vote Counts: 0</div>
 
-    <div class="bottom-buttons">
+  <div class="settings-container">
+    <button id="settings-icon" onclick="toggleSettings()">⚙️</button>
+    <div class="settings-buttons" id="settings-buttons">
       <button id="toggle-counts-btn" class="action-button" onclick="toggleCounts()">Show/Hide Feedback Counts</button>
       <button id="clear-button" class="action-button" onclick="clearVotes()">Clear Votes</button>
     </div>
@@ -107,6 +140,7 @@
     };
 
     let countsVisible = false;
+    let settingsVisible = false;
 
     function vote(type) {
       votes[type]++;
@@ -116,7 +150,7 @@
 
     function updateTotal() {
       const total = votes.bad + votes.neutral + votes.happy;
-      document.getElementById('total-votes').innerText = `Total votes: ${total}`;
+      document.getElementById('total-votes').innerText = `Vote Counts: ${total}`;
     }
 
     function toggleCounts() {
@@ -134,6 +168,11 @@
       }
       countsVisible = false;
       updateTotal();
+    }
+
+    function toggleSettings() {
+      settingsVisible = !settingsVisible;
+      document.getElementById('settings-buttons').style.display = settingsVisible ? 'flex' : 'none';
     }
   </script>
 
