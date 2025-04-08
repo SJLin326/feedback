@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>顧客滿意度投票系統</title>
+  <title>Satisfaction Survey</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
       display: flex;
       justify-content: center;
       gap: 40px;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     .emoji-block {
       display: flex;
@@ -28,24 +28,50 @@
     .counter {
       font-size: 24px;
       margin-top: 10px;
+      display: none; /* 初始隱藏 */
     }
-    #clear-button {
+
+    #total-votes {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .bottom-section {
       position: fixed;
       bottom: 20px;
       right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .bottom-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .action-button {
       padding: 10px 20px;
       font-size: 16px;
       border: none;
-      background-color: #f44336;
       color: white;
       cursor: pointer;
       border-radius: 8px;
+    }
+
+    #clear-button {
+      background-color: #f44336;
+    }
+
+    #toggle-counts-btn {
+      background-color: #2196f3;
     }
   </style>
 </head>
 <body>
 
-  <h1>Please tell us how you feel</h1>
+  <h1>Satisfaction Survey</h1>
 
   <div class="emoji-container">
     <div class="emoji-block">
@@ -64,7 +90,14 @@
     </div>
   </div>
 
-  <button id="clear-button" onclick="clearVotes()">Clear</button>
+  <div class="bottom-section">
+    <div id="total-votes">Total votes: 0</div>
+
+    <div class="bottom-buttons">
+      <button id="toggle-counts-btn" class="action-button" onclick="toggleCounts()">Show/Hide Feedback Counts</button>
+      <button id="clear-button" class="action-button" onclick="clearVotes()">Clear Votes</button>
+    </div>
+  </div>
 
   <script>
     const votes = {
@@ -73,16 +106,34 @@
       happy: 0
     };
 
+    let countsVisible = false;
+
     function vote(type) {
       votes[type]++;
       document.getElementById(`${type}-count`).innerText = votes[type];
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const total = votes.bad + votes.neutral + votes.happy;
+      document.getElementById('total-votes').innerText = `Total votes: ${total}`;
+    }
+
+    function toggleCounts() {
+      countsVisible = !countsVisible;
+      document.querySelectorAll('.counter').forEach(el => {
+        el.style.display = countsVisible ? 'block' : 'none';
+      });
     }
 
     function clearVotes() {
       for (const key in votes) {
         votes[key] = 0;
         document.getElementById(`${key}-count`).innerText = '0';
+        document.getElementById(`${key}-count`).style.display = 'none';
       }
+      countsVisible = false;
+      updateTotal();
     }
   </script>
 
