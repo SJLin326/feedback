@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Satisfaction Survey</title>
   <style>
     body {
@@ -13,7 +12,6 @@
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       user-select: none;
-      margin-bottom: 100px; /* 預留空間給固定按鈕區 */
     }
 
     .emoji-container {
@@ -21,7 +19,6 @@
       justify-content: center;
       gap: 40px;
       margin-bottom: 30px;
-      flex-wrap: wrap;
     }
 
     .emoji-block {
@@ -59,8 +56,6 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
-      z-index: 999;
     }
 
     #settings-icon {
@@ -77,7 +72,6 @@
       display: none;
       flex-direction: row;
       gap: 10px;
-      flex-wrap: wrap;
     }
 
     .action-button {
@@ -107,32 +101,6 @@
     button:active {
       outline: none;
       box-shadow: none;
-    }
-
-    /* 手機與平板排版優化 */
-    @media (max-width: 768px) {
-      .emoji-container {
-        align-items: center;
-        gap: 20px;
-      }
-
-      .settings-container {
-        align-items: flex-start;
-      }
-
-      .settings-buttons {
-        width: 100%;
-      }
-
-      .action-button {
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      #total-votes {
-        font-size: 18px;
-        margin-top: 50px;
-      }
     }
   </style>
 </head>
