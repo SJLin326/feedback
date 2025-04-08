@@ -39,8 +39,8 @@
     .counter {
       font-size: 24px;
       margin-top: 10px;
-      height: 28px;              /* 預留空間 */
-      visibility: hidden;        /* 初始隱藏但保留空間 */
+      height: 28px;
+      visibility: hidden;
     }
 
     #total-votes {
@@ -67,6 +67,7 @@
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       user-select: none;
+      touch-action: manipulation;
     }
 
     .settings-buttons {
@@ -85,6 +86,11 @@
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       user-select: none;
+      touch-action: manipulation;
+    }
+
+    button {
+      touch-action: manipulation;
     }
 
     #toggle-counts-btn {
