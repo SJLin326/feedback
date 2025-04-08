@@ -39,7 +39,8 @@
     .counter {
       font-size: 24px;
       margin-top: 10px;
-      display: none;
+      height: 28px;              /* 預留空間 */
+      visibility: hidden;        /* 初始隱藏但保留空間 */
     }
 
     #total-votes {
@@ -168,15 +169,16 @@
     function toggleCounts() {
       countsVisible = !countsVisible;
       document.querySelectorAll('.counter').forEach(el => {
-        el.style.display = countsVisible ? 'block' : 'none';
+        el.style.visibility = countsVisible ? 'visible' : 'hidden';
       });
     }
 
     function clearVotes() {
       for (const key in votes) {
         votes[key] = 0;
-        document.getElementById(`${key}-count`).innerText = '0';
-        document.getElementById(`${key}-count`).style.display = 'none';
+        const countEl = document.getElementById(`${key}-count`);
+        countEl.innerText = '0';
+        countEl.style.visibility = 'hidden';
       }
       countsVisible = false;
       updateTotal();
