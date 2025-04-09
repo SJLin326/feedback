@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Satisfaction Survey</title>
   <style>
     body {
@@ -17,8 +17,9 @@
     .emoji-container {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 30px;
       margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
     .emoji-block {
@@ -34,13 +35,20 @@
       -webkit-tap-highlight-color: transparent;
       -webkit-touch-callout: none;
       user-select: none;
+      touch-action: manipulation;
     }
 
     .counter {
-      font-size: 24px;
-      margin-top: 10px;
-      height: 28px;
+      font-size: 20px;
+      height: 24px;
       visibility: hidden;
+    }
+
+    .percentage {
+      font-size: 16px;
+      height: 20px;
+      visibility: hidden;
+      color: gray;
     }
 
     #total-votes {
@@ -89,16 +97,16 @@
       touch-action: manipulation;
     }
 
-    button {
-      touch-action: manipulation;
-    }
-
     #toggle-counts-btn {
       background-color: #2196f3;
     }
 
     #clear-button {
       background-color: #f44336;
+    }
+
+    button {
+      touch-action: manipulation;
     }
 
     button:focus {
@@ -120,9 +128,10 @@
         width: 100%;
       }
     }
+
     @media (max-width: 400px) {
       .emoji-button {
-        font-size: 70px; /* 自動縮小表情符號大小以適應手機寬度 */
+        font-size: 70px;
       }
     }
   </style>
@@ -135,14 +144,22 @@
     <div class="emoji-block">
       <div onclick="vote('bad')" class="emoji-button">😠</div>
       <div id="bad-count" class="counter">0</div>
+      <div id="bad-percent" class="percentage">0%</div>
     </div>
     <div class="emoji-block">
       <div onclick="vote('neutral')" class="emoji-button">😐</div>
       <div id="neutral-count" class="counter">0</div>
+      <div id="neutral-percent" class="percentage">0%</div>
     </div>
     <div class="emoji-block">
-      <div onclick="vote('happy')" class="emoji-button">😊</div>
-      <div id="happy-count" class="counter">0</div>
+      <div onclick="vote('smile')" class="emoji-button">🙂</div>
+      <div id="smile-count" class="counter">0</div>
+      <div id="smile-percent" class="percentage">0%</div>
+    </div>
+    <div class="emoji-block">
+      <div onclick="vote('bigSmile')" class="emoji-button">😄</div>
+      <div id="bigSmile-count" class="counter">0</div>
+      <div id="bigSmile-percent" class="percentage">0%</div>
     </div>
   </div>
 
@@ -160,7 +177,8 @@
     const votes = {
       bad: 0,
       neutral: 0,
-      happy: 0
+      smile: 0,
+      bigSmile: 0
     };
 
     let countsVisible = false;
@@ -170,16 +188,25 @@
       votes[type]++;
       document.getElementById(`${type}-count`).innerText = votes[type];
       updateTotal();
+      updatePercentages();
     }
 
     function updateTotal() {
-      const total = votes.bad + votes.neutral + votes.happy;
+      const total = Object.values(votes).reduce((a, b) => a + b, 0);
       document.getElementById('total-votes').innerText = `Vote Counts: ${total}`;
+    }
+
+    function updatePercentages() {
+      const total = Object.values(votes).reduce((a, b) => a + b, 0);
+      for (const key in votes) {
+        const percent = total > 0 ? ((votes[key] / total) * 100).toFixed(1) + '%' : '0.0%';
+        document.getElementById(`${key}-percent`).innerText = percent;
+      }
     }
 
     function toggleCounts() {
       countsVisible = !countsVisible;
-      document.querySelectorAll('.counter').forEach(el => {
+      document.querySelectorAll('.counter, .percentage').forEach(el => {
         el.style.visibility = countsVisible ? 'visible' : 'hidden';
       });
     }
@@ -187,9 +214,10 @@
     function clearVotes() {
       for (const key in votes) {
         votes[key] = 0;
-        const countEl = document.getElementById(`${key}-count`);
-        countEl.innerText = '0';
-        countEl.style.visibility = 'hidden';
+        document.getElementById(`${key}-count`).innerText = '0';
+        document.getElementById(`${key}-count`).style.visibility = 'hidden';
+        document.getElementById(`${key}-percent`).innerText = '0%';
+        document.getElementById(`${key}-percent`).style.visibility = 'hidden';
       }
       countsVisible = false;
       updateTotal();
